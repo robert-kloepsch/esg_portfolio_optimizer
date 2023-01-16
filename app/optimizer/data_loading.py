@@ -1,27 +1,8 @@
-import sqlalchemy as sqa
 import pandas as pd
 import random
 
 
-class NucleusEngine:
-    def __init__(self, pyodbc_string):
-        self.pyodbc = pyodbc_string
-    
-    def get_engine(self):
-        engine = sqa.create_engine(sqa.engine.URL.create("mssql+pyodbc", query={"odbc_connect": self.pyodbc}))
-
-        return engine
-
-
-def get_connection(pyodbc_string: str) -> sqa.engine.base.Engine:
-    '''Takes in a string with connection information and returns a sqa engine'''
-    my_engine = NucleusEngine(pyodbc_string)
-    conn = my_engine.get_engine()
-
-    return conn
-
-
-def get_dataframe(conn: sqa.engine.base.Engine, database_name_get_data: str, columns_get_data: str, columns_get_data_rename: list, isin: list, isin_weight_match: dict) -> pd.DataFrame:
+def get_dataframe(conn, database_name_get_data: str, columns_get_data: str, columns_get_data_rename: list, isin: list, isin_weight_match: dict) -> pd.DataFrame:
     '''Takes in all neccesarry information to load data such as database name and isin list and returns a preprocessed dataframe'''
     # Create a tuple of our isin list so we can nicley use it in out sql request
     tuple_isin = tuple(isin)
